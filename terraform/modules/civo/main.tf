@@ -9,12 +9,8 @@ terraform {
 
 provider "civo" {
   region = var.civo_cloud_region
+  token = var.civo_token
 }
-
-# cd terraform/modules/civo
-# export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_rsa.pub)
-# terraform init
-# terraform plan
 module "kubefirst_vm" {
   source = "github.com/kubefirst/code-samples//terraform/modules/civo/kubefirst-vm?ref=main"
 
