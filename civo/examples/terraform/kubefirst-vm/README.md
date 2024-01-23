@@ -7,7 +7,7 @@ export TF_VAR_civo_cloud_region="nyc1"
 export TF_VAR_civo_token=$your-civo-token
 export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_rsa.pub)
 terraform init
-terraform plan
+terraform apply
 
 PUBLIC_IP=$(civo --region nyc1 --output json instance show kubefirst-vm | jq -r .public_ip)
 ssh -i ~/.ssh/id_rsa root@$PUBLIC_IP
