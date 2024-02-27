@@ -1,7 +1,7 @@
-data "civo_size" "xlarge" {
+data "civo_size" "large" {
   filter {
     key      = "name"
-    values   = ["g3.xlarge"]
+    values   = ["g3.large"]
     match_by = "re"
   }
   filter {

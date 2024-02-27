@@ -1,12 +1,12 @@
-variable "civo_cloud_region" {
+variable "civo_region" {
   type    = string
   default = "nyc1"
 }
 
 variable "civo_token" {
-  type    = string
+  type = string
 }
 
 variable "ssh_key_pub" {
-  type        = string
+  type = string
 }

@@ -1,5 +1,5 @@
 locals {
-  startup_script      = <<EOF
+  startup_script = <<EOF
 #!/bin/bash
 sudo apt-get update
 sudo apt-get install \
