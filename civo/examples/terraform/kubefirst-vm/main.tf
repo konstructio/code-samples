@@ -12,7 +12,7 @@ provider "civo" {
 }
 
 module "kubefirst_vm" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubefirst-vm?ref=civo-k3s"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubefirst-vm?ref=main"
 
   name   = "kubefirst-vm"
   script = local.startup_script

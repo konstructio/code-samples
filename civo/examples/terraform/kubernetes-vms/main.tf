@@ -12,7 +12,7 @@ provider "civo" {
 }
 
 module "k1_master_1" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=civo-k3s"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-1"
   script = local.startup_script
@@ -22,7 +22,7 @@ module "k1_master_1" {
 }
 
 module "k1_master_2" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=civo-k3s"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-2"
   script = local.startup_script
@@ -32,7 +32,7 @@ module "k1_master_2" {
 }
 
 module "k1_master_3" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=civo-k3s"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-3"
   script = local.startup_script
