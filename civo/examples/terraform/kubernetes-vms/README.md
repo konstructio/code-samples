@@ -9,7 +9,8 @@ export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_rsa.pub)
 terraform init
 terraform apply
 
-PUBLIC_IP=$(civo --region $CIVO_REGION --output json instance show kubefirst-vm | jq -r .public_ip)
-ssh -i ~/.ssh/id_rsa root@$PUBLIC_IP
+
+# get the list of new public ip addresses for the k3s cluster
+terraform output -json | jq -r kubernetes_vms_public_ips.value
 
 ```
