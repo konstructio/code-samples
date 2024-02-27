@@ -18,6 +18,7 @@ module "k1_master_1" {
   script = local.startup_script
   // Local path to public key on the user who has claimed this module's system
   ssh_public_key = var.ssh_key_pub
+  civo_region    = var.civo_region
 }
 
 module "k1_master_2" {
@@ -27,6 +28,7 @@ module "k1_master_2" {
   script = local.startup_script
   // Local path to public key on the user who has claimed this module's system
   ssh_public_key = var.ssh_key_pub
+  civo_region    = var.civo_region
 }
 
 module "k1_master_3" {
@@ -36,4 +38,5 @@ module "k1_master_3" {
   script = local.startup_script
   // Local path to public key on the user who has claimed this module's system
   ssh_public_key = var.ssh_key_pub
+  civo_region    = var.civo_region
 }
