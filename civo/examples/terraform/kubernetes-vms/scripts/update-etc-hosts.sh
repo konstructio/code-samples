@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
-
 echo "update /etc/hosts file on virtual machines"
-terraform output -json 
+
+vm_1_public_ip=$(terraform output -json | jq -r '.kubernetes_vms_1_public_ip.value')
+vm_2_public_ip=$(terraform output -json | jq -r '.kubernetes_vms_2_public_ip.value')
+vm_3_public_ip=$(terraform output -json | jq -r '.kubernetes_vms_3_public_ip.value')
+PUBLIC_IP_LIST=($vm_1_public_ip $vm_2_public_ip $vm_3_public_ip)
+
+vm_1_private_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_1_private_etc_hosts.value')
+vm_1_public_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_1_public_etc_hosts.value')
+vm_2_private_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_2_private_etc_hosts.value')
+vm_2_public_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_2_public_etc_hosts.value')
+vm_3_private_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_3_private_etc_hosts.value')
+vm_3_public_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_3_public_etc_hosts.value')
 
 echo "Waiting for nodes to be ready..."
 sleep 5
-IP_LIST=()
-IP_PRIVATE_LIST=()
-HOSTS_FILE_APPEND=""
+host_file_append="${vm_1_private_etc_hosts}"$'\n'"${vm_1_public_etc_hosts}"
+host_file_append="$host_file_append"$'\n'"${vm_2_private_etc_hosts}"$'\n'"${vm_2_public_etc_hosts}"
+host_file_append="$host_file_append"$'\n'"${vm_3_private_etc_hosts}"$'\n'"${vm_3_public_etc_hosts}"
 
-echo "Getting IP addresses of master nodes..."
-for i in {1..3}; do
-    echo k1-master-$i
-    ip=$(civo --region nyc1 --output json instance show k1-master-$i | jq -r '.public_ip')
-    ip_private=$(civo --region nyc1 --output json instance show k1-master-$i | jq -r '.private_ip')
-    sleep 1
-    IP_LIST+=($ip)
-    HOSTS_FILE_APPEND+="$ip k1-master-$i\n$ip_private k1-master-$i"$'\n'
-done
-echo "IP_LIST: ${IP_LIST[*]}"
-echo "${HOSTS_FILE_APPEND}"
+echo "${host_file_append}"
 
 # append /etc/hosts on each ip adress with the other ip adresses
 echo "Adding hosts entries to each node..."
-for ip in "${IP_LIST[@]}"; do
+for ip in "${PUBLIC_IP_LIST[@]}"; do
     echo "Waiting for $ip to be ready..."
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$ip "echo -e '${HOSTS_FILE_APPEND}' | sudo tee -a /etc/hosts"
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$ip "echo -e '${host_file_append}' | sudo tee -a /etc/hosts"
 done
 
