@@ -6,6 +6,7 @@ export CIVO_REGION="nyc1"
 export TF_VAR_civo_region=$CIVO_REGION
 export TF_VAR_civo_token=$CIVO_TOKEN
 export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_rsa.pub)
+export TF_VAR_ssh_key_private=$(cat ~/.ssh/id_rsa)
 terraform init
 terraform apply
 
@@ -13,4 +14,12 @@ terraform apply
 # get the list of new public ip addresses for the k3s cluster
 terraform output -json | jq -r kubernetes_vms_public_ips.value
 
+
+./update-etc-hosts $region 
+
 ```
+
+
+## todo 
+- make host count dynamic leveraging terraform splat operator
+- 
