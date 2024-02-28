@@ -40,3 +40,19 @@ module "k1_master_3" {
   ssh_public_key = var.ssh_key_pub
   civo_region    = var.civo_region
 }
+
+resource "null_resource" "sleep" {
+  depends_on = [ module.k1_master_1, module.k1_master_2, module.k1_master_3 ]
+
+ provisioner "local-exec" {
+    command = "/bin/sleep 10"
+  }
+}
+
+resource "null_resource" "update_etc_hosts" {
+  depends_on = [ null_resource.sleep ]
+
+ provisioner "local-exec" {
+    command = "/bin/bash ./scripts/update-etc-hosts.sh"
+  }
+}
