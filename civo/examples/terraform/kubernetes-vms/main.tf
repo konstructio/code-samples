@@ -12,7 +12,7 @@ provider "civo" {
 }
 
 module "k1_master_1" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=k8s-vms"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-1"
   script = local.startup_script
@@ -22,7 +22,7 @@ module "k1_master_1" {
 }
 
 module "k1_master_2" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=k8s-vms"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-2"
   script = local.startup_script
@@ -32,7 +32,7 @@ module "k1_master_2" {
 }
 
 module "k1_master_3" {
-  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=k8s-vms"
+  source = "github.com/kubefirst/code-samples//civo/terraform/modules/kubernetes-vms?ref=main"
 
   name   = "k1-master-3"
   script = local.startup_script
@@ -41,8 +41,16 @@ module "k1_master_3" {
   civo_region    = var.civo_region
 }
 
-resource "null_resource" "update_etc_hosts" {
+resource "null_resource" "sleep" {
   depends_on = [ module.k1_master_1, module.k1_master_2, module.k1_master_3 ]
+
+ provisioner "local-exec" {
+    command = "/bin/sleep 10"
+  }
+}
+
+resource "null_resource" "update_etc_hosts" {
+  depends_on = [ null_resource.sleep ]
 
  provisioner "local-exec" {
     command = "/bin/bash ./scripts/update-etc-hosts.sh"
