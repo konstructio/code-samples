@@ -6,8 +6,8 @@ cd civo/examples/terraform/kubernetes-vms
 export CIVO_REGION="nyc1"
 export TF_VAR_civo_region=$CIVO_REGION
 export TF_VAR_civo_token=$CIVO_TOKEN
-export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_rsa.pub)
-export TF_VAR_ssh_key_private=$(cat ~/.ssh/id_rsa)
+export TF_VAR_ssh_key_pub=$(cat ~/.ssh/id_ed25519.pub)
+export TF_VAR_ssh_key_private=$(cat ~/.ssh/id_ed25519)
 terraform init
 terraform apply
 ```
