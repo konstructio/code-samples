@@ -1,8 +1,13 @@
-resource "civo_ssh_key" "this" {
-  name       = var.name
-  public_key = var.ssh_public_key
+resource "random_string" "random" {
+  length           = 3
+  special          = false
 }
 
+resource "civo_ssh_key" "this" {
+  name       = var.name
+  public_key = "${var.ssh_public_key}-${random_string.random.result}"
+}
+ 
 resource "civo_instance" "this" {
   hostname           = var.name
   size               = element(data.civo_size.large.sizes, 0).name
