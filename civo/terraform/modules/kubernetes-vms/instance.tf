@@ -4,8 +4,8 @@ resource "random_string" "random" {
 }
 
 resource "civo_ssh_key" "this" {
-  name       = var.name
-  public_key = "${var.ssh_public_key}-${random_string.random.result}"
+  name       = "${var.name}-${random_string.random.result}"
+  public_key = var.ssh_public_key
 }
  
 resource "civo_instance" "this" {
