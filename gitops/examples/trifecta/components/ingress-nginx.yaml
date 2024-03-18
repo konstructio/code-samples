@@ -28,7 +28,7 @@ spec:
             enable-ssl-passthrough: true    
     chart: ingress-nginx
   destination:
-    name: london
+    name: in-cluster
     namespace: ingress-nginx
   syncPolicy:
     automated:

@@ -20,7 +20,7 @@ spec:
         installCRDs: true
     chart: cert-manager
   destination:
-    name: london
+    name: in-cluster
     namespace: cert-manager
   syncPolicy:
     automated:
