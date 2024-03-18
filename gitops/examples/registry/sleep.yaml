@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: '5'
+    argocd.argoproj.io/hook: PostSync
+  name: argocd-sleep-for-healthy
+  namespace: argocd
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-sleep-for-healthy-job
+          image: public.ecr.aws/bitnami/kubectl:1.24
+          command:
+            - /bin/sh
+            - -c
+            - "sleep 150"
+      restartPolicy: OnFailure
