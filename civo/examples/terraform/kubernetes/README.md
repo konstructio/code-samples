@@ -2,10 +2,11 @@
 
 ```sh
 # visit this link for your civo token https://dashboard.civo.com/security
+export CLUSTER_NAME="argocd3"
 export CIVO_REGION="nyc1"
 export TF_VAR_civo_region=$CIVO_REGION
 export TF_VAR_civo_token=$CIVO_TOKEN
-export TF_VAR_cluster_name=argocd1
+export TF_VAR_cluster_name=$CLUSTER_NAME
 terraform init
 terraform apply
 
@@ -32,5 +33,41 @@ type: Opaque
 stringData:
   token: $CIVO_TOKEN
 EOF
+```
 
+## add argocd
+
+```sh
+kubectl kustomize https://github.com/kubefirst/manifests/argocd/cloud\?ref\=main | kubectl apply -f -
+
+watch kubectl get pods -n argocd
+```
+
+## add registry
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: registry
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '1001'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kubefirst/code-samples.git
+    path: gitops/examples/registry
+    targetRevision: add-trifecta
+  destination:
+    name: in-cluster
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 ```
