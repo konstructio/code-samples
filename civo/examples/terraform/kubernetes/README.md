@@ -2,7 +2,7 @@
 
 ```sh
 # visit this link for your civo token https://dashboard.civo.com/security
-export CLUSTER_NAME="argocd3"
+export CLUSTER_NAME="argocd4"
 export CIVO_REGION="nyc1"
 export TF_VAR_civo_region=$CIVO_REGION
 export TF_VAR_civo_token=$CIVO_TOKEN
