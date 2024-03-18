@@ -11,7 +11,7 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: external-dns-secret
+  name: external-dns-secrets
   namespace: external-dns
 type: Opaque
 stringData:
