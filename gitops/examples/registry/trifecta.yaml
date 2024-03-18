@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kubefirst/code-samples.git
-    path: gitops/examples/trifecta/components
+    path: gitops/examples/registry/trifecta/components
     targetRevision: add-trifecta
   destination:
     name: in-cluster

@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kubefirst/code-samples.git
-    path: gitops/examples/argocd
+    path: gitops/examples/registry/argocd
     targetRevision: add-trifecta
   destination:
     name: in-cluster
