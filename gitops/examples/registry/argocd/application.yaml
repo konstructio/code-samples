@@ -14,16 +14,9 @@ spec:
     path: gitops/examples/registry/argocd
     repoURL: https://github.com/kubefirst/code-samples.git
     targetRevision: add-trifecta
-    # kustomize:
-    #   resources:
-    #     - github.com:kubefirst/manifests.git/argocd/cloud?ref=main
-    #     - argocd-ui-ingress.yaml
-    #     - externalsecrets.yaml
-    #     - argocd-oidc-restart-job.yaml
-
-    #   patchesStrategicMerge:
-    #     - argocd-cm.yaml
-    #     - argocd-cmd-params-cm.yaml
-        
-    #   generatorOptions:
-    #     disableNameSuffixHash: true
+    kustomize:
+      forceCommonLabels: true
+      forceCommonAnnotations: true
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
