@@ -3,3 +3,4 @@
 **/*/bootstrap.sh
 **/*/tmp
 kubeconfig-*
+tmp/
