@@ -12,6 +12,7 @@ vm_2_private_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_2_priva
 vm_2_public_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_2_public_etc_hosts.value')
 vm_3_private_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_3_private_etc_hosts.value')
 vm_3_public_etc_hosts=$(terraform output -json | jq -r '.kubernetes_vms_3_public_etc_hosts.value')
+ssh_private_key_path=$TF_VAR_ssh_private_key_path
 
 echo "Waiting for nodes to be ready..."
 host_file_append="${vm_1_private_etc_hosts}"$'\n'"${vm_1_public_etc_hosts}"
@@ -24,6 +25,6 @@ sleep 10
 echo "Adding hosts entries to each node..."
 for ip in "${PUBLIC_IP_LIST[@]}"; do
     echo "Waiting for $ip to be ready..."
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$ip "echo -e '${host_file_append}' | sudo tee -a /etc/hosts"
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $ssh_private_key_path root@$ip "echo -e '${host_file_append}' | sudo tee -a /etc/hosts"
 done
 
