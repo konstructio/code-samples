@@ -49,6 +49,14 @@ resource "null_resource" "sleep" {
   }
 }
 
+resource "null_resource" "update_local_ssh" {
+  depends_on = [ null_resource.sleep ]
+
+ provisioner "local-exec" {
+    command = "/bin/bash ./scripts/update-local-ssh.sh"
+  }
+}
+
 resource "null_resource" "update_etc_hosts" {
   depends_on = [ null_resource.sleep ]
 
