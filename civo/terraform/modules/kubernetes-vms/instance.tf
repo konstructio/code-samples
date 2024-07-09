@@ -18,4 +18,7 @@ resource "civo_instance" "this" {
   script             = var.script
   sshkey_id          = civo_ssh_key.this.id
   region             = var.civo_region
+  timeouts {
+    create = "5m"
+  }
 }
